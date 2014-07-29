@@ -86,8 +86,11 @@ public class DoTheLinesIntersect {
 		//Equations: X = startAx + changeInAx(lambda) and Y = startAy + changeInAy(lambda)
 		//Solve for lambda in the above equations by plugging in the x and y values of the end
 		//points of the second line segment.
-		double lambdaX = ((double)startBx - (double)startAx) / changeInAx;
-		double lambdaY = ((double)startBy - (double)startAy) / changeInAy;
+		double lambdaX = ((double)startBx - (double)startAx) / (double)changeInAx;
+		double lambdaY = ((double)startBy - (double)startAy) / (double)changeInAy;
+		
+		System.out.println("lx: " + lambdaX);
+		System.out.println("ly: " + lambdaY);
 		
 		//If both of the lambda values are less than 0 or greater than 1, there is no
 		//intersection points, otherwise there is at least one intersection point.
