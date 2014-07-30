@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * DoTheLinesIntersect.java
  * 
- * @author Miles
+ * @author Miles Friedman m3488030 COP3503C R8 - Birdman of Waikiki
  * @version 7/28/14
  */
 public class DoTheLinesIntersect {
@@ -35,19 +35,12 @@ public class DoTheLinesIntersect {
 			int lineBChangeInX = endingPointBx - startingPointBx;
 			int lineBChangeInY = endingPointBy - startingPointBy;
 			
-			/*System.out.println("lineAChangeInX:" + lineAChangeInX);
-			System.out.println("lineAChangeInY:" + lineAChangeInY);
-			System.out.println("lineBChangeInX:" + lineBChangeInX);
-			System.out.println("lineBChangeInY:" + lineBChangeInY);*/
-			
 			//Call kramersRuleBool which will output a true or false value stating whether or
 			//not a system of two parametric equations have a solution.
 			boolean kramersBoolean = kramersRuleBool(lineAChangeInX, lineBChangeInX, lineAChangeInY, lineBChangeInY, startingPointBx-startingPointAx, startingPointBy-startingPointAy);
 			
 			//Create a flag variable that will be used during the coincidental line test.
 			boolean doTheyIntersect = false;
-			
-			//System.out.println(kramersBoolean);
 			
 			//It is not enough to just test kramer's rule because the lines could be collinear,
 			//therefore this must be tested to see whether or not the line segments actually
@@ -57,7 +50,7 @@ public class DoTheLinesIntersect {
 				System.out.println("Move to the left or right!");
 			//Otherwise, if both starting points have the same x or y values, the lines could be
 			//collinear and need to be tested.
-			else /*if (startingPointAx == startingPointBx || startingPointAy == startingPointBy)*/ {
+			else {
 				if (areTheLinesCollinear(startingPointAx, startingPointAy, endingPointAx, endingPointAy, endingPointBx, endingPointBy) == true) {
 					//even if the line segments are collinear and are part of the same linear
 					//plane, they may not intersect at any point, therefore this must be tested.
@@ -68,8 +61,7 @@ public class DoTheLinesIntersect {
 						System.out.println("Good picture, Birdman!");
 				} else
 					System.out.println("Good picture, Birdman!");
-			} /*else
-				System.out.println("Good picture, Birdman!");*/
+			}
 			
 		}
 	}
@@ -86,15 +78,16 @@ public class DoTheLinesIntersect {
 		//Equations: X = startAx + changeInAx(lambda) and Y = startAy + changeInAy(lambda)
 		//Solve for lambda in the above equations by plugging in the x and y values of the end
 		//points of the second line segment.
-		double lambdaX = ((double)startBx - (double)startAx) / (double)changeInAx;
-		double lambdaY = ((double)startBy - (double)startAy) / (double)changeInAy;
-		
-		System.out.println("lx: " + lambdaX);
-		System.out.println("ly: " + lambdaY);
+		double lambda1X = ((double)startBx - (double)startAx) / (double)changeInAx;
+		double lambda1Y = ((double)startBy - (double)startAy) / (double)changeInAy;
+		double lambda2X = ((double)endBx - (double)startAx) / (double)changeInAx;
+		double lambda2Y = ((double)endBy - (double)startAy) / (double)changeInAy;
 		
 		//If both of the lambda values are less than 0 or greater than 1, there is no
 		//intersection points, otherwise there is at least one intersection point.
-		if ((lambdaX < 0 && lambdaY < 0) || (lambdaX > 1 && lambdaY > 1))
+		if ((lambda1X < 0 && lambda2X < 0) || (lambda1X > 1 && lambda2X > 1))
+			return false;
+		else if ((lambda1Y < 0 && lambda2Y < 0) || (lambda1X > 1 && lambda2Y > 1))
 			return false;
 		else
 			return true;
@@ -130,10 +123,6 @@ public class DoTheLinesIntersect {
 	//							UyLambda - VyMu = Y2 - Y1 (dx + ey = f)
 	//(where Ux = ax, Vx = by, X2-X1 = c, Uy = dx, Vy = ey, and Y2-Y1 = f)
 	public static boolean kramersRuleBool(int ax, int by, int dx, int ey, int c, int f) {
-		/*System.out.println("ax=" + ax + " by=" + by + " c=" + c);
-		System.out.println("dx=" + dx + " ey=" + ey + " f=" + f);
-		System.out.println();*/
-		
 		//create and fill a 2 by 2 matrix with the lambda(x)/lambda(y) and mu(x)/mu(y) values
 		//found in a parametric equations of two lines.
 		int[][] denom = new int[2][2];
@@ -162,17 +151,6 @@ public class DoTheLinesIntersect {
 			numerator2[1][1] = f;
 			double lambda = (double)determinant2x2(numerator1) / (double)determinant2x2(denom);
 			double mu = (double)determinant2x2(numerator2) / (double)determinant2x2(denom);
-			
-			/*System.out.println("l: " + lambda);
-			System.out.println("m: " + mu);
-			System.out.println();*/
-			
-			/*for (int i = 0; i < 2; i++) {
-				for (int j = 0; j < 2; j++) {
-					System.out.print(numerator2[i][j] + " ");
-				}
-				System.out.println();
-			}*/
 			
 			//lambda and mu must both have values in between 0 and 1 inclusive for the line
 			//to have an intersection.
